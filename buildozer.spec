@@ -6,6 +6,8 @@ source.dir = .
 source.include_exts = py,png,jpg,kv,atlas
 version = 1.0.0
 requirements = python3,kivy
+android.ndk = 25b
+android.sdk = 24
 orientation = portrait
 fullscreen = 0
 
