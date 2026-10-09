@@ -13,6 +13,7 @@ android.build_tools = 34.0.0
 android.accept_sdk_license = True
 orientation = portrait
 fullscreen = 0
+
 [buildozer]
 log_level = 2
 warn_on_root = 1
