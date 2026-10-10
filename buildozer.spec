@@ -1,19 +1,23 @@
 [app]
 title = Hisobkunak
 package.name = hisobkunak
-package.domain = com.sitora.hisobkunak
+package.domain = org.tj.hisobkunak
 source.dir =.
 source.include_exts = py,png,jpg,kv,atlas
-version = 1.4
-requirements = python3,kivy
+version = 1.0
+requirements = python3,kivy==2.3.0
 orientation = portrait
 fullscreen = 0
+
+[buildozer]
+log_level = 2
+
+[app:android]
 android.permissions = INTERNET
 android.api = 33
 android.minapi = 21
 android.ndk = 25b
-android.accept_sdk_license_agreements = True
-[buildozer]
-log_level = 2
-[app:android]
-android.archs = arm64-v8a
+android.sdk = 33
+android.build_tools = 33.0.2
+android.accept_sdk_license_agreement = True
+android.archs = arm64-v8a, armeabi-v7a
