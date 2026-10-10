@@ -24,6 +24,3 @@ jobs:
         with:
           name: Hisobkunak-APK
           path: bin/*.apk
-          
-android.build_tools = 33.0.2
-android.sdk = 33
