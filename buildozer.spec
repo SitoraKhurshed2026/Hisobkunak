@@ -1,28 +1,48 @@
-[app]
-title = Hisobkunak
-package.name = hisobkunak
-package.domain = org.sitora.hisobkunak
-source.dir =.
-source.include_exts = py,png,jpg,kv,atlas,json,ttf
-version = 1.0
-requirements = python3,kivy==2.3.0,kivymd==1.1.1
-orientation = portrait
-fullscreen = 0
+name: Build APK
 
-[buildozer]
-log_level = 2
-warn_on_root = 1
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
 
-[app:android]
-android.api = 33
-android.minapi = 21
-android.sdk = 33
-android.ndk = 25b
-android.build_tools = 33.0.2
-android.accept_sdk_license_agreements = True
-android.permissions = INTERNET
-android.archs = arm64-v8a, armeabi-v7a
+jobs:
+  build:
+    runs-on: ubuntu-22.04
 
-[app:ios]
-ios.kivy_ios_dir =../kivy-ios
-ios.ios_deploy_dir =../ios_deploy
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Install system dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y python3-pip zip unzip libffi-dev libssl-dev autoconf automake libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo6 cmake libltdl-dev libbz2-dev
+
+      - name: Install Buildozer
+        run: |
+          pip install --upgrade pip
+          pip install buildozer cython==0.29.36
+
+      - name: Build with Buildozer
+        env:
+          ACCEPT_SDK_LICENSE_AGREEMENTS: "1"
+        run: |
+          yes | sdkmanager --licenses || true
+          buildozer -v android debug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: Hisobkunak-APK
+          path: bin/*.apk
